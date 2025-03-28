@@ -1,0 +1,128 @@
+\chapter{System Design and Architecture}
+\label{ch:system_design}
+\graffito{Note: High-level diagrams, component responsibilities, data flow.}
+
+outlines the system design of our proposed solution.
+
+The architecture of the our proposed solution comprises several essential components to create an integrated and responsive system:
+
+\begin{description}
+    \item[LEGO Train Control Server] A dedicated Python application manages the actual train operations. The server receives command requests from the AI agent or the GUI controller over ZMQ, allowing it to directly execute actions such as start, stop, and speed adjustments. It also broadcasts the current train status to both controllers, enabling every participant of the system to be aware of the current status.
+    
+    \item[Graphical User Interface Controller] This application, which is also running on the Rapeberry Pi, allows users to control the train. It provides a video stream to the user and performs real-time object detection using computer vision under the hood. It communicates with the AI agent to ensure safe train operation, especially in cases where stopping the train is necessary to avoid collisions.
+    
+    \item[AI Agent] Built using Langgraph framework, this agent processes user inputs and translates them into command requests for the Lego train. Leveraging locally running LLM, it reasons through both user and system prompts and autonomously handles interactions by calling custom tools. The obstacle detection message sent by the GUI prompts the agent to halt the train and alert the user.
+    
+    \item[ZeroMQ Communication] Utilizing ZeroMQ facilitates fast, low-latency communication between components without requiring internet connectivity, ensuring reliable control over the LEGO train operation Alabed et al. (2023).
+\end{description}
+
+
+AI Agent: 
+% Automatic Speech Recognition (ASR): Integrating ASR allows users to issue voice commands, thereby offering a hands-free control mechanism for the LEGO train. Utilizing open-source ASR libraries helps provide flexibility and affordability for implementation.}
+
+ This agent leverages LangGraph's capabilities to gather and process various information streams, allowing it to understand user commands and respond appropriately. Its reasoning capacity enables it to make decisions based on the current state of the LEGO train system and the user suggested commands. 
+
+ Running locally on the Raspberry Pi, the open-source LLM processes textual input and generates natural language responses. This enhances user interaction by enabling nuanced discussions and clarifying commands.
+
+ 
+ State Management: The agent maintains a comprehensive awareness of the operational status of the train - whether it is moving, stopped, or facing any obstructions. By continuously monitoring the feedback from the train, the agent ensures prompt adjustments to its commands, enhancing the overall safety and reliability of operations.
+
+ ZeroMQ Communication Protocol: Utilizing ZeroMQ enables effective and low-latency communication between the LangGraph AI agent, LEGO train control server and graphical user interface components. This is essential for real-time responsiveness, especially when dealing with external commands and emergency stops triggered by object detection.
+
+%
+% Section: Implementation
+%
+\section{Implementation}
+\label{sec:system_design:implementation}
+\graffito{Note: Languages, frameworks, libraries, algorithms used; software engineering details.}
+
+\subsection{Methodology}
+
+1. Local Deployment of LLMs
+The implementation of locally running LLMs on the Raspberry Pi enhances data privacy and reduces latency, a critical factor for real-time applications like controlling a Lego train. Local deployment allows for quick processing of user queries and seamless integration with the ReAct agent without external dependencies.
+
+2. Speech Recognition Integration
+Incorporating ASR enables users to interact with the train through voice commands, providing flexibility to control operations hands-free. The system will leverage existing ASR solutions that can be integrated into Python environments, such as Vosk or Google’s Speech-to-Text, to parse voice commands into executable actions (Qiu et al., 2024).
+
+3. Safety Protocols
+Safety features are crucial, particularly in environments with moving trains. The User Interface Controller implements real-time object detection using frameworks like OpenCV and TensorFlow, analyzing video frames to identify obstacles. If an object is detected on the train track, the UI Controller signals the ReAct Agent to issue a stop command to the train control server, ensuring safe operation (Raisch & Krakowski, 2020).
+
+4. Train Control Logic
+The train control logic encapsulated in the Train Control Server interprets commands from both the ReAct agent and User Interface Controller, managing train status updates and broadcasting this information back over ZMQ. This ensures both control units have up-to-date information about the train's current state, providing an autonomous operational environment (Spitale et al., 2023).
+
+
+
+
+
+
+
+
+\subsection{Implementation Plan}
+Setting Up Raspberry Pi Environment: Install necessary software libraries, including LangGraph, ASR tools, and ZMQ.
+
+2. Developing the AI ReAct Agent: Create functionality for the agent to process user inputs, augmented through LangGraph’s reasoning capabilities.
+
+3. Integrating Train Control Server: Program train control logic, ensuring it effectively communicates with the ReAct agent and UI Controller.
+
+4. Implementing Real-time Detection: Develop the object detection module, setting thresholds for distance and speed needed to trigger emergency commands.
+
+5. Testing and Iteration: Conduct tests in real-time scenarios to refine interactions, safety features, and communication reliability.
+
+
+
+The implementation process consists of the following steps:
+
+1. Setting Up the Raspberry Pi: Establish a Raspberry Pi environment equipped with necessary libraries, including LangGraph, %ASR modules, 
+ZMQ, and the open-source LLM.
+
+2. Developing the RAG ReAct Framework: Create functions within the LangGraph RAG framework to interpret user inputs and translate them into corresponding commands for the LEGO train. This includes natural language understanding, state awareness, and decision-making logic.
+
+3. Integrating Speech Recognition: Implement ASR capabilities to recognize voice commands issued by the user. This involves setting up and training the model to ensure it accurately interprets commands related to the operation of the train.
+
+4. Testing Control Logic: Establish the control server logic for the LEGO train, which will handle commands from both the ReAct agent and the user interface. This server will continuously monitor the actions of the train and report its status to the agent in real time.
+
+5. Implementing Safety Measures: To ensure safety during operation, the agent must react to disturbances in its environment, such as unexpected objects on the track. The system incorporates an object detection framework that triggers an emergency stop command when an obstacle is detected.
+
+
+\subsection{Used Technology}
+
+Langgraph ReAct Template
+
+ollama with enhanced tool calling model
+
+zmqt
+
+OpenCv and Tensorflow with pretrained COCO
+
+
+
+This framework and implementation model for train control assistant tool illustrate the multifaceted advantages of using LangGraph with locally operating LLMs, thus enhancing both the practical application and the theoretical foundations of advanced AI in resource restricted edge device contexts.
+
+%
+% Section: Evaluation
+%
+\section{Evaluation}
+\label{sec:system_design:evaluation}
+\graffito{Note: Test setup, metrics, baselines, tools (e.g., benchmarking framework, dataset splits).}
+
+
+%
+% Section: Results and Analysis Diskussion der Ergebnisse
+%
+\section{Results and Analysis}
+\label{sec:system_design:results}
+\graffito{Note: Plots, tables, runtime comparisons, accuracy, etc.}
+
+The proposed AI ReAct Agent based on LangGraph, operating on a Raspberry Pi with LLMs, presents an innovative solution for autonomous control of a Lego train. By facilitating both text and voice commands, along with built-in safety protocols for real-time object detection, the system aims to deliver an efficient and reliable operational environment. Future work will focus on expanding the capabilities of the agent, including more complex decision-making processes and the potential for learning from environmental interactions.
+
+Advantages of the Proposed System
+
+The proposed LangGraph RAG ReAct agent on the Raspberry Pi provides several notable advantages:
+
+- Enhanced Reasoning Capability: The integration of the LangGraph RAG framework allows the agent to reason through commands, offering intelligent responses that go beyond simple command execution. It can understand context and history of prior interactions, improving the overall user experience.
+
+- State Management and Safety: The agent's ability to keep track of the train's operational state enhances safety and operational efficiency. This capability allows for dynamic adjustments based on both user commands and real-time environmental conditions.
+
+- Accessibility: The ASR and LLM combination makes the system accessible to a broader audience, enabling users with varying levels of technical expertise to interact with the LEGO train system easily and intuitively.
+
+- Cost-effective and Open-Source: The use of Raspberry Pi as the central platform alongside open-source tools lowers the overall cost barrier for development and implementation. This encourages experimentation and customization within educational and hobbyist communities.
