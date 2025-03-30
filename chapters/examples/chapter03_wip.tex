@@ -1,0 +1,135 @@
+\section{Methodology}
+\label{sec:methodology}
+
+This section outlines the full system architecture and implementation strategy behind the autonomous LEGO train prototype. The aim was to build a decentralized, modular, and voice-interactive control system driven by a local agentic LLM. Built entirely on a Raspberry Pi without cloud dependencies, the system integrates LangGraph, ZeroMQ, and lightweight ASR and vision tools to ensure autonomous behavior and safety.
+
+\subsection{System Overview}
+
+The architecture is composed of five main modules:
+
+\begin{itemize}
+    \item \textbf{LangGraph-based Agent:} interprets voice/text commands and executes tool functions.
+    \item \textbf{Train Control Server:} interfaces with LEGO motor hardware.
+    \item \textbf{UI Controller:} handles object detection, real-time feedback, and safety triggers.
+    \item \textbf{ZeroMQ Network Layer:} manages asynchronous message passing across modules.
+    \item \textbf{ASR Listener:} processes local speech commands using Vosk.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{langgraph-flow.png}
+    \caption{LangGraph agent state transition loop (adapted from \texttt{langgraph.ai})}
+\end{figure}
+
+\subsection{LangGraph-Based AI Agent}
+
+The LangGraph framework was chosen for its modular, reactive architecture. Unlike monolithic agents, LangGraph encodes tool execution and decision-making into a visualizable graph. Nodes represent either LLM reasoning steps or tool invocations; transitions are conditional.
+
+\begin{lstlisting}[language=Python, caption=LangGraph reasoning node setup]
+builder = StateGraph(State, input=InputState, config_schema=Configuration)
+builder.add_node("call_model", call_model)
+builder.add_node("tools", ToolNode(TOOLS))
+builder.add_edge("__start__", "call_model")
+builder.add_conditional_edges("call_model", route_model_output)
+builder.add_edge("tools", "call_model")
+\end{lstlisting}
+
+The agent is responsible for interpreting user commands and invoking appropriate tools, all within a cycle of LLM reasoning and external execution.
+
+\subsection{Train Control Server}
+
+This server directly controls the LEGO motor using Build HAT. It uses the ZeroMQ \texttt{ROUTER} pattern to accept commands and the \texttt{PUB} pattern to broadcast updated statuses.
+
+\begin{lstlisting}[language=Python, caption=Motor control interface]
+def start(self, speed, direction):
+    self.speed = speed if direction == "forward" else -speed
+    self.train.start(self.speed)
+
+def stop(self):
+    self.train.stop()
+\end{lstlisting}
+
+This server is always listening for command requests and emits updated status after every successful action.
+
+\subsection{User Interface and Object Detection}
+
+The UI provides camera-based visual feedback and emergency detection. Obstacle detection is wired directly into the UI loop using TensorFlow Lite or YOLOv5 Nano. Detection triggers an alert to the AI agent via ZeroMQ.
+
+\begin{lstlisting}[language=Python, caption=Triggering alerts from UI]
+if detected_object['confidence'] > 0.6:
+    send_alert("obstacle detected", detected_object)
+\end{lstlisting}
+
+This ensures the safety mechanism operates independently from the reasoning loop.
+
+\subsection{ZeroMQ Messaging Layer}
+
+ZeroMQ was selected due to its low-latency, modular, and broker-less design. The following patterns are used:
+
+\begin{itemize}
+    \item \textbf{DEALER/ROUTER:} for bi-directional commands between UI/Agent and the train controller
+    \item \textbf{PUB/SUB:} for broadcasting train state to all components
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption=Socket setup]
+dealer.setsockopt(zmq.HEARTBEAT_IVL, 2000)
+dealer.setsockopt(zmq.RCVTIMEO, 30000)
+sub.setsockopt_string(zmq.SUBSCRIBE, topic_filter)
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{message-flow-architecture.png}
+    \caption{ZeroMQ component messaging and socket topology}
+\end{figure}
+
+\subsection{Always-On ASR with Vosk}
+
+Speech input is processed using Vosk for offline ASR. Wake word detection filters irrelevant audio, avoiding noisy LLM queries.
+
+\begin{lstlisting}[language=Python, caption=Wake-word filtering]
+if WAKE_WORD in result_text.get("text", ""):
+    print("Wake word detected")  # Switch to command mode
+\end{lstlisting}
+
+Once active, transcribed commands are passed to the LangGraph entry node for further reasoning and tool invocation.
+
+\subsection{Tool Functions and Runtime State Sync}
+
+Agent tools encapsulate train commands like \texttt{start()}, \texttt{stop()}, \texttt{get\_status()}. Runtime state is maintained centrally.
+
+\begin{lstlisting}[language=Python, caption=Train control tool call]
+async def start(speed: int, direction: str) -> dict:
+    result = await send_train_command("start", [speed, direction])
+    return {"train_status": result}
+\end{lstlisting}
+
+The \texttt{RuntimeState} singleton synchronizes state between components, ensuring coherent execution even with asynchronous delays.
+
+\subsection{Startup Pattern and Background Threads}
+
+All side-effect logic is centralized in \texttt{startup.py}, including listener registration, ASR thread launch, and ZeroMQ init.
+
+\begin{lstlisting}[language=Python, caption=Startup orchestration]
+start_ui_listener()
+start_asr_listener()
+start_train_status_listener()
+\end{lstlisting}
+
+This clean design allows the agent logic to remain pure and testable, and simplifies shutdown and reinitialization.
+
+\subsection{Educational Practices and Insights}
+
+The codebase intentionally mirrors good modular software engineering principles to enhance its use in educational contexts. Each subsystem—ASR, UI, controller, LangGraph agent—is independently testable. Explicit comments and verbose logs were used for student understanding.
+
+Suggested educational tasks:
+
+\begin{itemize}
+    \item Modify the \texttt{change\_speed()} tool to accept percentage deltas
+    \item Add fallback rules to the LangGraph agent for offline error handling
+    \item Profile latency for different ASR wake-word models
+\end{itemize}
+
+\section{Conclusion of Section}
+
+This architecture prioritizes safety, modularity, and transparency while operating under embedded constraints. Though the implementation is incomplete in a few areas (e.g., advanced agent memory), it lays a solid foundation for future educational deployment and system scalability.

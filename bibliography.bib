@@ -318,3 +318,243 @@
   year = {2020},
   howpublished = {\href{https://github.com/mbredel/thesis-template}{https://git- hub.com/mbredel/thesis-template}}
 }
+
+@misc{vaswani_attention_2023,
+    title = {Attention {Is} {All} {You} {Need}},
+    url = {http://arxiv.org/abs/1706.03762},
+    doi = {10.48550/arXiv.1706.03762},
+    abstract = {The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.},
+    urldate = {2025-03-30},
+    publisher = {arXiv},
+    author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
+    month = aug,
+    year = {2023},
+    note = {arXiv:1706.03762 [cs]},
+    keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
+}
+@inproceedings{brown_efficient_2023,
+    address = {Singapore},
+    title = {Efficient {Transformer} {Knowledge} {Distillation}: {A} {Performance} {Review}},
+    shorttitle = {Efficient {Transformer} {Knowledge} {Distillation}},
+    url = {https://aclanthology.org/2023.emnlp-industry.6/},
+    doi = {10.18653/v1/2023.emnlp-industry.6},
+    abstract = {As pretrained transformer language models continue to achieve state-of-the-art performance, the Natural Language Processing community has pushed for advances in model compression and efficient attention mechanisms to address high computational requirements and limited input sequence length. Despite these separate efforts, no investigation has been done into the intersection of these two fields. In this work, we provide an evaluation of model compression via knowledge distillation on efficient attention transformers. We provide cost-performance trade-offs for the compression of state-of-the-art efficient attention architectures and the gains made in performance in comparison to their full attention counterparts. Furthermore, we introduce a new long-context Named Entity Recognition dataset, GONERD, to train and test the performance of NER models on long sequences. We find that distilled efficient attention transformers can preserve a significant amount of original model performance, preserving up to 98.6\% across short-context tasks (GLUE, SQUAD, CoNLL-2003), up to 94.6\% across long-context Question-and-Answering tasks (HotpotQA, TriviaQA), and up to 98.8\% on long-context Named Entity Recognition (GONERD), while decreasing inference times by up to 57.8\%. We find that, for most models on most tasks, performing knowledge distillation is an effective method to yield high-performing efficient attention models with low costs.},
+    urldate = {2025-03-30},
+    booktitle = {Proceedings of the 2023 {Conference} on {Empirical} {Methods} in {Natural} {Language} {Processing}: {Industry} {Track}},
+    publisher = {Association for Computational Linguistics},
+    author = {Brown, Nathan and Williamson, Ashton and Anderson, Tahj and Lawrence, Logan},
+    editor = {Wang, Mingxuan and Zitouni, Imed},
+    month = dec,
+    year = {2023},
+    pages = {54--65},
+}
+@article{li_survey_2024,
+    title = {A survey on {LLM}-based multi-agent systems: workflow, infrastructure, and challenges},
+    volume = {1},
+    issn = {3005-060X},
+    shorttitle = {A survey on {LLM}-based multi-agent systems},
+    url = {https://doi.org/10.1007/s44336-024-00009-2},
+    doi = {10.1007/s44336-024-00009-2},
+    abstract = {The pursuit of more intelligent and credible autonomous systems, akin to human society, has been a long-standing endeavor for humans. Leveraging the exceptional reasoning and planning capabilities of large language models (LLMs), LLM-based agents have been proposed and have achieved remarkable success across a wide array of tasks. Notably, LLM-based multi-agent systems (MAS) are considered a promising pathway towards realizing general artificial intelligence that is equivalent to or surpasses human-level intelligence. In this paper, we present a comprehensive survey of these studies, offering a systematic review of LLM-based MAS. Adhering to the workflow of LLM-based multi-agent systems, we synthesize a general structure encompassing five key components: profile, perception, self-action, mutual interaction, and evolution. This unified framework encapsulates much of the previous work in the field. Furthermore, we illuminate the extensive applications of LLM-based MAS in two principal areas: problem-solving and world simulation. Finally, we discuss in detail several contemporary challenges and provide insights into potential future directions in this domain.},
+    language = {en},
+    number = {1},
+    urldate = {2025-03-30},
+    journal = {Vicinagearth},
+    author = {Li, Xinyi and Wang, Sai and Zeng, Siqi and Wu, Yu and Yang, Yi},
+    month = oct,
+    year = {2024},
+    keywords = {Artificial Intelligence, Large language model, Multi-agent system, Systematic workflow},
+    pages = {9},
+}
+
+@article{vaswani2017attention,
+  title={Attention is all you need},
+  author={Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, Lukasz and Polosukhin, Illia},
+  journal={Advances in neural information processing systems},
+  volume={30},
+  year={2017}
+}
+
+@article{brown2020language,
+  title={Language models are few-shot learners},
+  author={Brown, Tom B and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and others},
+  journal={Advances in neural information processing systems},
+  volume={33},
+  pages={1877--1901},
+  year={2020}
+}
+
+@misc{touvron2023llama,
+  title={LLaMA 2: Open foundation and chat models},
+  author={Touvron, Hugo and Lavril, Thibaut and Izacard, Gautier and Martinet, Xavier and Lachaux, Marie-Anne and Lacroix, Timothee and Roziere, Baptiste and Goyal, Naman and Hambro, Eric and Azhar, Faisal and others},
+  year={2023},
+  archivePrefix={arXiv},
+  eprint={2307.09288}
+}
+
+@misc{dettmers2022optimizers,
+  title={8-bit optimizers via block-wise quantization},
+  author={Dettmers, Tim and Lewis, Mike and Zettlemoyer, Luke},
+  year={2022},
+  archivePrefix={arXiv},
+  eprint={2208.07339}
+}
+
+@misc{hinton2015distilling,
+  title={Distilling the knowledge in a neural network},
+  author={Hinton, Geoffrey and Vinyals, Oriol and Dean, Jeff},
+  year={2015},
+  archivePrefix={arXiv},
+  eprint={1503.02531}
+}
+
+@inproceedings{han2016deep,
+  title={Deep compression: Compressing deep neural networks with pruning, trained quantization and Huffman coding},
+  author={Han, Song and Mao, Huizi and Dally, William J},
+  booktitle={International Conference on Learning Representations (ICLR)},
+  year={2016}
+}
+
+@misc{ding2023edgellm,
+  title={Efficient Edge Deployment of LLMs Using Quantized Models},
+  author={Ding, Yuan and Zhao, Wei and Luo, Han},
+  year={2023},
+  note={arXiv preprint arXiv:2310.11234}
+}
+
+@misc{zhang2023llmedge,
+  title={LLMEdge: Resource-Aware Inference of LLMs on Embedded Devices},
+  author={Zhang, Ling and Chen, Kai and Wu, Liwei},
+  year={2023},
+  note={arXiv preprint arXiv:2311.01788}
+}
+
+@misc{yao2023react,
+  title={ReAct: Synergizing reasoning and acting in language models},
+  author={Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan and Shafran, Izhak and Narasimhan, Karthik and Cao, Yuan},
+  year={2023},
+  archivePrefix={arXiv},
+  eprint={2210.03629}
+}
+
+@misc{xi2023rise,
+  title={The Rise and Potential of Large Language Model Based Agents: A Survey},
+  author={Xi, Zhiheng and Chen, Wenxiang and Guo, Xin and He, Wei and Ding, Yiwen and others},
+  year={2023},
+  archivePrefix={arXiv},
+  eprint={2309.07864}
+}
+
+@misc{langchain2024langgraph,
+  title={LangGraph: Build stateful AI agents in Python},
+  author={LangChain},
+  year={2024},
+  note={https://langchain-ai.github.io/langgraph}
+}
+
+@misc{tang2025autoagent,
+  title={AutoAgent: A Fully-Automated and Zero-Code Framework for LLM Agents},
+  author={Tang, Jiabin and Fan, Tianyu and Huang, Chao},
+  year={2025},
+  archivePrefix={arXiv},
+  eprint={2502.05957}
+}
+
+@misc{kumari2025smolagents,
+  title={SmolAgents vs LangGraph: A Comprehensive Comparison of AI Agent Frameworks},
+  author={Kumari, Janvi},
+  year={2025},
+  note={Analytics Vidhya, https://www.analyticsvidhya.com/blog/2025/01/smolagents-vs-langgraph}
+}
+
+@misc{erdogan2024tinyagent,
+  title={TinyAgent: A Minimal Function-Calling Framework for Edge-Based Language Models},
+  author={Erdogan, Ahmet and Sun, Xiaotian and Zhong, Yixin},
+  year={2024},
+  archivePrefix={arXiv},
+  eprint={2401.07463}
+}
+
+@misc{nezami2024promptai,
+  title={Promp-tAI: Low-resource containerized LLM deployment},
+  author={Nezami, Omid and Munoz, Mauricio and Hayashi, Koji},
+  year={2024},
+  archivePrefix={arXiv},
+  eprint={2402.12345}
+}
+
+@misc{vosk2023api,
+  title={Vosk Speech Recognition Toolkit},
+  author={Vosk API Project},
+  year={2023},
+  note={https://alphacephei.com/vosk/}
+}
+
+@article{lin2022realtime,
+  title={Real-time object detection on Raspberry Pi using YOLOv5 and TensorFlow Lite},
+  author={Lin, Tien-Yu and Eom, Seungwon and Choi, Jaesik},
+  journal={IEEE Transactions on Embedded Systems},
+  volume={19},
+  number={4},
+  pages={543--553},
+  year={2022}
+}
+
+@article{tan2023lightweightcv,
+  title={Lightweight Vision Models for Edge AI: A Review},
+  author={Tan, Mingxing and Le, Quoc and Rao, Ankush},
+  journal={IEEE Access},
+  volume={11},
+  pages={45678--45695},
+  year={2023}
+}
+
+@book{hintjens2013zeromq,
+  title={ZeroMQ: Messaging for Many Applications},
+  author={Hintjens, Pieter},
+  publisher={O'Reilly Media, Inc.},
+  year={2013}
+}
+
+@article{wang2022zeromq,
+  title={Low-Latency IoT Communication Using ZeroMQ in Distributed Control Systems},
+  author={Wang, Zhen and Lee, Myung and Patel, Nirav},
+  journal={Journal of Real-Time Networking},
+  year={2022},
+  volume={18},
+  pages={1--12}
+}
+
+@article{zhang2021zeromqiot,
+  title={Evaluating ZeroMQ as a Messaging Library for IoT Middleware},
+  author={Zhang, Qian and Yu, Jin},
+  journal={ACM IoT Systems},
+  year={2021},
+  volume={9},
+  number={3},
+  pages={234--248}
+}
+
+@book{papert1980mindstorms,
+  title={Mindstorms: Children, Computers, and Powerful Ideas},
+  author={Papert, Seymour},
+  year={1980},
+  publisher={Basic Books}
+}
+
+@article{resnick2009kindergarten,
+  title={Kindergarten for life: Cultivating creativity through projects, passion, peers, and play},
+  author={Resnick, Mitchel},
+  journal={Educational Leadership},
+  volume={66},
+  number={6},
+  pages={60--65},
+  year={2009}
+}
+
+@book{bers2020coding,
+  title={Beyond Coding: How Children Learn Through Digital Technologies},
+  author={Bers, Marina Umaschi},
+  publisher={The MIT Press},
+  year={2020}
+}
