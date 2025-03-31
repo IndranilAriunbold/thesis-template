@@ -1,0 +1,48 @@
+\chapter{Evaluation and Results}
+\label{ch:evaluation}
+
+This section presents the system’s performance observations, functional validation, and development insights derived during implementation. As this project integrates diverse asynchronous components under real-time constraints on limited hardware, both technical performance and practical engineering challenges are assessed.
+
+\section{Evaluation Strategy}
+
+The evaluation combined direct functionality tests, empirical performance observation, and developer-driven stress testing. Formal benchmarks were limited due to runtime variability on embedded hardware. Most system components were validated on macOS with mock objects and finalized on a Raspberry Pi 4 Model B.
+
+\subsection{Performance Observations}
+
+Agent response time was generally acceptable for command-level interaction. Commands sent to the LangGraph agent (via speech or GUI) triggered tool responses with average latency between 6 to 8 seconds. Notably:
+
+\begin{itemize}
+  \item **ASR + agent query roundtrip**: $\approx$ 6-8s
+  \item **Agent tool execution**: $\approx$ 0.4–0.8s
+  \item **Object detection loop (TFLite)**: 0.5s/frame
+\end{itemize}
+
+Background threading and event synchronization improved performance stability. However, early stages suffered from excessive polling, redundant feed refreshes, and unintended re-initialization of sockets.
+
+\subsection{Functional Testing}
+
+\begin{itemize}
+  \item \textbf{Train Controller and UI:} Fully tested. Commands like \texttt{start}, \texttt{stop}, and \texttt{get\_status} executed reliably. UI responded to runtime status broadcasts.
+  \item \textbf{Agent + ASR:} Wake-word filtering and command dispatch worked as designed. Real-time audio input via Vosk recognized short phrases with high accuracy under low-noise conditions.
+  \item \textbf{Object Detection:} Operational via camera feed. Simulated obstacle triggers correctly stopped the train through UI-based alerts.
+  \item \textbf{System Integration:} Full integration test on Raspberry Pi succeeded. The agent received requests from ASR and UI and dispatched correct ZeroMQ messages. However, frequent restarts were needed to clear socket issues in LangGraph.
+\end{itemize}
+
+\subsection{Challenges and Debugging Journey}
+
+The development process was exploratory and iterative. The project involved first-time use of Python for system integration, LangGraph for agent design, and ZeroMQ for asynchronous messaging.
+
+Key challenges included:
+
+\begin{itemize}
+  \item \textbf{Asynchronous complexity:} Thread coordination across modules was difficult to debug, especially due to LangGraph’s internal asyncio event loops.
+  \item \textbf{LangGraph instabilities:} Some template examples were broken due to dependency mismatches. Workarounds were required to bypass version conflicts, particularly with the OllamaChat class initialization.
+  \item \textbf{Cyclic imports and state injection:} It was not initially clear how to pass shared state or runtime values into LangGraph nodes. Non-graph members had no state access until centralized runtime structures were enforced.
+  \item \textbf{Socket re-initialization:} LangGraph reloaded socket connections internally during startup. To resolve this, socket allocation was moved out of agent code and initialized centrally in \texttt{startup.py}.
+\end{itemize}
+
+Despite these barriers, the system now runs reliably when started via the unified entrypoint. Lessons learned from failures played a central role in achieving final integration.
+
+\section{Summary}
+
+The system meets the primary goal of demonstrating a locally deployed, agentic LLM-driven autonomous controller on embedded hardware. While several architectural workarounds were necessary, the resulting prototype achieves real-time voice-command response, tool-calling behavior, and object-reactive control. Most importantly, it offers a strong platform for education and further exploration.

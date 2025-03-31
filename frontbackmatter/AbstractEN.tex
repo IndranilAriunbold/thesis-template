@@ -6,17 +6,11 @@
 
 \begin{otherlanguage}{american}
 	\chapter*{Abstract}
-	A short summary of the contents in English of about one page. The following points should be addressed in particular:
-	\begin{itemize}
-		\item Motivation: Why did this work come about? Why is the topic of the work interesting (for the general public)? The motivation should be abstracted as far as possible from the specific tasks that may be given by a company.
-		\item Content: What is the content of this thesis? What exactly is covered in the thesis? The methodology and working method should be briefly discussed here.
-		\item Results: What are the results of this work? A brief overview of the most important results as a teaser to read the complete thesis.
-	\end{itemize}
-	\medskip
 	
-	\noindent
-	BTW: A great guide by Kent Beck how to write good abstracts can be found here:
-	\begin{center}
-		\url{https://plg.uwaterloo.ca/~migod/research/beckOOPSLA.html}
-	\end{center}
+This thesis explores how agentic large language models (LLMs) can be deployed on resource-limited devices like a Raspberry Pi to autonomously control a LEGO train. The idea came from combining cutting-edge AI with hands-on robotics in an educational setting, especially for workshops like KinderCampus. It’s an interesting challenge because most LLMs are designed to run in the cloud, but here the goal was to build a fully offline system that is private, low-cost, and transparent.
+
+The system I built includes local speech recognition, object detection, a graphical interface, and an LLM agent using the LangGraph framework. All components run on a single Raspberry Pi and communicate using ZeroMQ. The agent is able to reason about commands, decide whether to call a tool, and keep track of runtime state. I designed the architecture to be modular and easy to understand, especially for students. The implementation followed best practices such as separating logic into modules, using background threads carefully, and handling errors gracefully.
+
+In the end, the project worked: the train can be controlled by voice, reacts to obstacles, and the whole setup runs without needing an Internet connection. It also serves as a platform for teaching the design of real-world AI systems. Students can modify parts, add tools, and learn how LLMs can be used for safe, interactive control on limited hardware. The system is not just a demo, it is something others can actually build on and learn from.
+
 \end{otherlanguage}

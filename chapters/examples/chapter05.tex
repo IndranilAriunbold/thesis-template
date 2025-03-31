@@ -1,29 +1,62 @@
 \chapter{Conclusion and Future Work}
 \label{ch:conclusion}
-\graffito{Note: Zusammenfassung und Ausblick}
+
+\section{Summary of Findings}
+
+This study explored the feasibility and architecture of deploying agentic large language models (LLM) on edge devices, specifically a Raspberry Pi 4 to autonomously control a LEGO train. By integrating LangGraph, ZeroMQ, and locally hosted ASR and object detection modules, the project successfully demonstrated a modular off-line control system for real-time interaction with a physical environment.
+
+The system achieved voice-controlled operation, obstacle-based emergency stopping, and modular extension through message-based coordination. Despite the limited compute environment, the agentic LLM managed to interpret commands, invoke tools, and synchronize state through a combination of design abstractions and lightweight frameworks.
+
+\section{Contributions and Educational Value}
+
+This work offers not only a functioning prototype but also a pedagogical foundation for teaching agentic AI and edge computing. It demonstrates:
+
+\begin{itemize}
+    \item The viability of LangGraph-based agents in constrained environments
+    \item How ZeroMQ can structure local component communication in real-time robotics
+    \item How tool-calling and runtime state sync support fault tolerance
+    \item The value of modularity in project-based learning and debugging
+\end{itemize}
+
+As part of the KinderCampus program, this system is expected to serve as a learning artifact for students exploring AI, voice interfaces, and safe control mechanisms.
+
+\subsection{Limitations}
+
+Despite its success, the current system has limitations:
+
+\begin{itemize}
+    \item raspberry Pi 4, is too weak. Pi 5 with more RAM would be more suitable. 
+    \item LangGraph’s memory and planning capabilities are not fully utilized
+    \item The object detection pipeline is lightweight but still CPU-intensive for longer runs
+    \item Debugging async Python workflows remains challenging without deep logging
+\end{itemize}
+
+In addition, LangGraph’s rapidly evolving API made consistent debugging difficult, especially when combined with unofficial community examples and partial documentation.
+
+\section{Future Work}
+
+Future improvements could include:
+
+\begin{itemize}
+    \item Implementing memory-aware agent behavior for better multi-turn interactions
+    \item Integrating more efficient wake-word detection and noise-tolerant ASR modules
+    \item Porting visual detection to edge-accelerated inference frameworks like Coral or Jetson
+    \item Building agent fallback logic for better user experience during network uncertainty
+    \item Formalizing agent behavior through testing suites (better prompting)
+\end{itemize}
+
+From an educational angle, new modules can be created for students to:
+\begin{itemize}
+    \item Design their own tools and link them into the agent graph
+    \item Test socket-based communication between custom GUIs and hardware
+    \item Simulate safety conditions and observe agent decisions
+\end{itemize}
+
+\section{Final Remarks}
+
+Building autonomous, voice-enabled robotics on resource-limited hardware is complex—but increasingly accessible. The combination of open-source tools like LangGraph, Ollama, ZeroMQ, and TFLite allows for educational systems that bridge theory and practice. While the development journey was filled with technical detours, cyclic imports, and uncooperative package versions, it led to a working system with real-world potential and classroom utility. More importantly, it taught me invaluable lessons in modular design, state management, and human-AI interfaces.
+
+
 
 In conclusion, the proposed structure and operational framework provide a reliable AI-driven solution for controlling physical devices while ensuring adaptability, efficiency, and safety measures in real time. The integration of a modular design across components proposes not only a robust framework for this specific task but can also serve as a model for future AI applications in robotics and beyond.
 
-The proposed LangGraph RAG ReAct framework for local deployment on a Raspberry Pi, augmented with ASR capabilities, represents a powerful tool in automating and controlling physical systems like a LEGO train. By leveraging the strengths of open-source software and hardware, the solution enhances user interaction through high-level reasoning capabilities and effective state management, ensuring safe and efficient operation. Future work may include expanding compatibility with additional devices and improving machine learning models for even more refined performance.
-
-%
-% Section: Summary
-%
-\section{Summary and Conclusion}
-\label{sec:conclusion:summary}
-\graffito{Note: Check}
-
-%
-% Section: Limitations
-%
-\section{Limitations}
-\label{sec:conclusion:limitations}
-\graffito{Note: Check}
-
-
-%
-% Section: Implementation
-%
-\section{Future Work}
-\label{sec:conclusion:future_work}
-\graffito{Note: Check}
